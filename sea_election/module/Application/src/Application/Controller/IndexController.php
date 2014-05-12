@@ -31,14 +31,30 @@ class IndexController extends AbstractActionController {
 
         mysql_select_db("sea_selection", $con);
 
-        mysql_query("INSERT INTO user_info (u_id, username, extra_info) 
-VALUES ('', 'chy', '123123')");
+       // mysql_query("INSERT INTO user_info (u_id, username, extra_info) VALUES ('', 'chy', '123123')");
+        
+        $result = mysql_query("SELECT * FROM user_info");
+
+        $arr_username = array();
+        $arr_extra = array();
+        
+        $i = '0';
+        
+        while ($row = mysql_fetch_array($result)) {
+            //echo $row['username'] . " " . $row['extra_info'];
+            $arr_extra[$i] = $row['extra_info'];
+            $arr_username[$i] = $row['username'];
+            $i++;
+            //echo "<br />";
+        }
 
         mysql_close($con);
 
-        $post = $_POST;
-        var_dump($post);
-        //return new ViewModel();
+        //$post = $_POST;
+        //var_dump($post);
+        $viewInfo = array('attr_extra' => $arr_extra,
+                    'attr_name' => $arr_username);
+        return new ViewModel($viewInfo);
     }
 
 }
