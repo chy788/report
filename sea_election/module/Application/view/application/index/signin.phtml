@@ -1,0 +1,12 @@
+<?php 
+for ($i=0;$i<$flag;$i++)
+{
+    echo $activeid[$i].":".$activename[$i].'<br>';
+}
+  echo $value . '<br>';
+?>
+<form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/signprocess" method="post" >
+<input type='text' value='userid' name='userid'>
+<input type='text' value='activeid' name='activeid'>
+<input type='submit'>
+</form>

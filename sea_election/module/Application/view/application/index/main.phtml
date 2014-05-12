@@ -1,4 +1,41 @@
-<form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/getpost" method="post" >
-<input type="text" value="1111" name="username">
+host
+<form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/createhost" method="post" >
+<input type="text" value="username" name="username">
+<input type="text" value="extrainfo" name="extrainfo">
 <input type="submit" >
 </form>
+activity
+<form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/createactive" method="post" >
+<input type="text" value="username" name="username">
+<input type="text" value="extrainfo" name="extrainfo">
+<input type="text" value="hostid" name="hostid">
+<input type="submit" >
+</form>
+user
+<form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/createuser" method="post" >
+<input type="text" value="username" name="username">
+<input type="text" value="extrainfo" name="extrainfo">
+<input type="submit" >
+</form>
+
+host_info
+<form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/showhostinfo" method="post" >
+<input type="text" value="hostid" name="hostid">
+<input type="submit" >
+</form>
+
+user_active
+<form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/searchactive" method="post" >
+<input type="text" value="userid" name="userid">
+<input type="submit" >
+</form>
+
+active_user
+<form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/searchuser" method="post" >
+<input type="text" value="activeid" name="activeid">
+<input type="submit" >
+</form>
+
+<br>
+sign in
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/signin">sign in</a>
