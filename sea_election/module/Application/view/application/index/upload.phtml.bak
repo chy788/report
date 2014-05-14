@@ -1,0 +1,9 @@
+<?php
+echo $return_res;
+echo $file_name;
+echo $file_type;
+echo $file_size;
+?>
+
+<img src="<?php echo $src?>">
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/main">main</a>

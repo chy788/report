@@ -24,7 +24,7 @@ class IndexController extends AbstractActionController {
     }
 
     public function getpostAction() {
-        $con = mysql_connect('localhost', 'root', 'epals');
+        $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
             var_dump(mysql_error());
         }
@@ -33,8 +33,10 @@ class IndexController extends AbstractActionController {
 
         // mysql_query("INSERT INTO user_info (u_id, username, extra_info) VALUES ('', 'chy', '123123')");
 
-        $result = mysql_query("SELECT * FROM user_info");
-
+        $result = mysql_query("SELECT * FROM user_info where u_id = 100");
+		var_dump(mysql_fetch_array($result));
+		exit;
+		//var_dump(result);exit;
         $arr_username = array();
         $arr_extra = array();
 
@@ -47,9 +49,10 @@ class IndexController extends AbstractActionController {
         }
 
         mysql_close($con);
-
+		var_dump($arr_extra);
         $viewInfo = array('attr_extra' => $arr_extra,
-            'attr_name' => $arr_username);
+            'attr_name' => $arr_username,
+			'flag' => $i);
         return new ViewModel($viewInfo);
     }
 
@@ -264,4 +267,36 @@ class IndexController extends AbstractActionController {
         return new ViewModel($viewInfo);
     }
 
+
+	public function uploadAction()
+	{		
+		if ($_FILES["file"]["error"] > 0)
+		{
+			$return_res = "Return Code: " . $_FILES["file"]["error"] . "<br />";
+		}
+			else
+			{
+			$file_name = "Upload: " . $_FILES["file"]["name"] . "<br />";
+			$file_type = "Type: " . $_FILES["file"]["type"] . "<br />";
+			$file_size = "Size: " . ($_FILES["file"]["size"] / 1024) . " Kb<br />";
+			//echo "Temp file: " . $_FILES["file"]["tmp_name"] . "<br />";
+
+			if (file_exists("d://xampp/htdocs/chyproject/sea_election/public/upload/" . $_FILES["file"]["name"]))
+			{
+			$return_res = $_FILES["file"]["name"] . " already exists. <br />";
+			}
+			else
+			{
+			move_uploaded_file($_FILES["file"]["tmp_name"],
+			"d://xampp/htdocs/chyproject/sea_election/public/upload/" . $_FILES["file"]["name"]);
+			$return_res = "Stored in: " . "upload/" . $_FILES["file"]["name"]. "<br />";
+			}
+		}
+		$viewInfo = array('return_res' => $return_res,
+			'file_name' => $file_name,
+			'file_type' => $file_type,
+			'file_size' => $file_size,
+			'src' => "http://".$_SERVER['HTTP_HOST']."/upload/" . $_FILES["file"]["name"]);
+        return new ViewModel($viewInfo);
+	}
 }

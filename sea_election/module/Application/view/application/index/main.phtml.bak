@@ -35,7 +35,6 @@ active_user
 <input type="text" value="activeid" name="activeid">
 <input type="submit" >
 </form>
-
 upload
 <form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/upload" method="post"
 enctype="multipart/form-data">
