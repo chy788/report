@@ -1,0 +1,9 @@
+<?php 
+
+foreach ($username as $value) {
+    echo $value . '<br>';
+}
+
+?>
+
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/signprocess">main</a>

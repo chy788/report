@@ -54,7 +54,7 @@ class IndexController extends AbstractActionController {
     }
 
     public function createhostAction() {
-        $con = mysql_connect('localhost', 'root', 'epals');
+        $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
             var_dump(mysql_error());
         }
@@ -76,7 +76,7 @@ class IndexController extends AbstractActionController {
     }
 
     public function createactiveAction() {
-        $con = mysql_connect('localhost', 'root', 'epals');
+        $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
             var_dump(mysql_error());
         }
@@ -98,7 +98,7 @@ class IndexController extends AbstractActionController {
     }
 
     public function showhostinfoAction() {
-        $con = mysql_connect('localhost', 'root', 'epals');
+        $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
             var_dump(mysql_error());
         }
@@ -125,7 +125,7 @@ class IndexController extends AbstractActionController {
     }
 
     public function createuserAction() {
-        $con = mysql_connect('localhost', 'root', 'epals');
+        $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
             var_dump(mysql_error());
         }
@@ -151,7 +151,7 @@ class IndexController extends AbstractActionController {
 
     public function signinAction() {
 
-        $con = mysql_connect('localhost', 'root', 'epals');
+        $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
             var_dump(mysql_error());
         }
@@ -182,7 +182,7 @@ class IndexController extends AbstractActionController {
     }
 
     public function signprocessAction() {
-        $con = mysql_connect('localhost', 'root', 'epals');
+        $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
             var_dump(mysql_error());
         }
@@ -203,7 +203,7 @@ class IndexController extends AbstractActionController {
     }
 
     public function searchactiveAction() {
-        $con = mysql_connect('localhost', 'root', 'epals');
+        $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
             var_dump(mysql_error());
         }
@@ -234,7 +234,7 @@ class IndexController extends AbstractActionController {
     }
     
     public function searchuserAction() {
-        $con = mysql_connect('localhost', 'root', 'epals');
+        $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
             var_dump(mysql_error());
         }

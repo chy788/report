@@ -11,4 +11,4 @@ for ($i=0;$i<$flag;$i++)
 <input type='submit'>
 </form>
 
-<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/main">main</a>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/signprocess">main</a>
