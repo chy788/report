@@ -40,9 +40,10 @@ class IndexController extends AbstractActionController {
             var_dump(mysql_error());
         }
 
-        mysql_select_db("sea_selection", $con);
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
 
-        mysql_query("INSERT INTO user_info (u_id, username, nickname, gender, phone, extra_info, imgsrc) VALUES ('', '".$username."', '".$nickname."', '".$gender."', '".$phone."', '".$extra."', '".$img_add."')");
+        mysql_query("INSERT INTO user_info (u_id, username, password, nickname, gender, phone, extre_info, imgsrc) VALUES ('', '".$username."', '111111','".$nickname."', '".$gender."', '".$phone."', '".$extra."', '".$img_add."')");
 		$u_id = mysql_insert_id();
 
         mysql_close($con);
@@ -55,6 +56,45 @@ class IndexController extends AbstractActionController {
 			'phone' => $phone,
 			'extra' => $extra,
 			'img_add' => "http://".$_SERVER['HTTP_HOST']."/upload/" .$img_add);
+        return new ViewModel($viewInfo);
+    }
+
+	public function edituserAction() {
+        $con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+
+        $post_data = $_POST;
+
+        $result = mysql_query("SELECT * FROM user_info where u_id=3");
+
+        $arr_activename = array();
+
+        //$i = '0';
+//var_dump(mysql_fetch_array($result));exit;
+        while ($row = mysql_fetch_array($result)) {
+			//username, password, nickname, gender, phone, extre_info, imgsrc
+            $username = $row['username'];
+			$nickname = $row['nickname'];
+			$gender = $row['gender'];
+			$phone = $row['phone'];
+			$extre_info = $row['extre_info'];
+			$imgsrc = "http://".$_SERVER['HTTP_HOST']."/upload/" . $row['imgsrc'];
+            //$i++;
+        }
+
+        mysql_close($con);
+
+        $viewInfo = array('username' => $username,
+			'nickname' => $nickname,
+			'gender' => $gender,
+			'phone' => $phone,
+			'extra' => $extre_info,
+			'imgsrc' => $imgsrc);
         return new ViewModel($viewInfo);
     }
 
@@ -302,7 +342,7 @@ class IndexController extends AbstractActionController {
         return new ViewModel($viewInfo);
 	}
 
-	public function loginAction()
+	public function registAction()
 	{
 		return new ViewModel();
 	}

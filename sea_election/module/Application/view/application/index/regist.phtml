@@ -1,0 +1,31 @@
+<form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/getpost" method="post" 
+enctype="multipart/form-data">
+上传头像
+<div>
+<label for="file">Filename:</label>
+<input type="file" name="file" id="file" /> 
+<br />
+
+
+</div>
+
+基本信息
+<div>
+用户名:<input type='text' name='nickname'>
+<br />
+昵  称:<input type='text' name='username'>
+<br />
+<input type="radio" name='gender' value='1'>男
+<input type="radio" name='gender' value='2'>女
+<br />
+联系方式:<input type='text' name='phone'>
+<br />
+备注:<input type='textarea' name='extra'>
+<br />
+</div>
+
+<input type='submit'>
+
+</form>
+
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/login"></a>
