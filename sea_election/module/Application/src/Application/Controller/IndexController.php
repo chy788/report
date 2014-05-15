@@ -60,6 +60,7 @@ class IndexController extends AbstractActionController {
     }
 
 	public function edituserAction() {
+		session_start();
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
             var_dump(mysql_error());
@@ -69,8 +70,9 @@ class IndexController extends AbstractActionController {
         mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
+		$search_id = $_SESSION['u_id'];
 
-        $result = mysql_query("SELECT * FROM user_info where u_id=3");
+        $result = mysql_query("SELECT * FROM user_info where u_id = ".$search_id);
 
         $arr_activename = array();
 
@@ -78,6 +80,7 @@ class IndexController extends AbstractActionController {
 //var_dump(mysql_fetch_array($result));exit;
         while ($row = mysql_fetch_array($result)) {
 			//username, password, nickname, gender, phone, extre_info, imgsrc
+			$u_id = $row['u_id'];
             $username = $row['username'];
 			$nickname = $row['nickname'];
 			$gender = $row['gender'];
@@ -89,7 +92,9 @@ class IndexController extends AbstractActionController {
 
         mysql_close($con);
 
-        $viewInfo = array('username' => $username,
+        $viewInfo = array(
+			'u_id' => $u_id,
+			'username' => $username,
 			'nickname' => $nickname,
 			'gender' => $gender,
 			'phone' => $phone,
@@ -104,7 +109,8 @@ class IndexController extends AbstractActionController {
             var_dump(mysql_error());
         }
 
-        mysql_select_db("sea_selection", $con);
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 
@@ -126,7 +132,8 @@ class IndexController extends AbstractActionController {
             var_dump(mysql_error());
         }
 
-        mysql_select_db("sea_selection", $con);
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 
@@ -148,7 +155,8 @@ class IndexController extends AbstractActionController {
             var_dump(mysql_error());
         }
 
-        mysql_select_db("sea_selection", $con);
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 
@@ -175,7 +183,8 @@ class IndexController extends AbstractActionController {
             var_dump(mysql_error());
         }
 
-        mysql_select_db("sea_selection", $con);
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 
@@ -201,7 +210,8 @@ class IndexController extends AbstractActionController {
             var_dump(mysql_error());
         }
 
-        mysql_select_db("sea_selection", $con);
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 
@@ -232,7 +242,8 @@ class IndexController extends AbstractActionController {
             var_dump(mysql_error());
         }
 
-        mysql_select_db("sea_selection", $con);
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 
@@ -253,7 +264,8 @@ class IndexController extends AbstractActionController {
             var_dump(mysql_error());
         }
 
-        mysql_select_db("sea_selection", $con);
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 
@@ -284,7 +296,8 @@ class IndexController extends AbstractActionController {
             var_dump(mysql_error());
         }
 
-        mysql_select_db("sea_selection", $con);
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 
@@ -345,6 +358,72 @@ class IndexController extends AbstractActionController {
 	public function registAction()
 	{
 		return new ViewModel();
+	}
+
+	public function loginAction()
+	{
+		session_start();
+		$con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+
+        $post_data = $_POST;
+
+        $result = mysql_query("SELECT * FROM user_info where username='".$post_data['username']."' and password='".$post_data['password']."'");
+
+        $arr_activename = array();
+		$row = mysql_fetch_array($result);
+		if($row)
+		{
+			header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/usermain');
+		}else
+		{
+			$viewInfo = array('result' => '1');
+		}
+	}
+
+	public function usermainAction()
+	{
+		session_start();
+		$con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+
+        $post_data = $_POST;
+
+        $result = mysql_query("SELECT * FROM user_info where u_id='".$_SESSION['u_id']."'");
+			
+        $arr_activename = array();
+		$row = mysql_fetch_array($result);
+			//username, password, nickname, gender, phone, extre_info, imgsrc
+			$u_id = $row['u_id'];
+            $username = $row['username'];
+			$nickname = $row['nickname'];
+			$gender = $row['gender'];
+			$phone = $row['phone'];
+			$extre_info = $row['extre_info'];
+			$imgsrc = "http://".$_SERVER['HTTP_HOST']."/upload/" . $row['imgsrc'];
+            //$i++;
+		
+		$_SESSION['u_id']=$u_id;
+        mysql_close($con);
+        $viewInfo = array(
+			'result' => '0',
+			'username' => $username,
+			'nickname' => $nickname,
+			'gender' => $gender,
+			'phone' => $phone,
+			'extra' => $extre_info,
+			'imgsrc' => $imgsrc);
+        return new ViewModel($viewInfo);
 	}
 }
 

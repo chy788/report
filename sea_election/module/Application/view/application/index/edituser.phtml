@@ -1,4 +1,4 @@
-用户id:<?php echo $u_id=1;?>
+用户id:<?php echo $u_id;?>
 </br>
 头像 <img src='<?php echo $imgsrc?>'>
 </br>
@@ -13,3 +13,6 @@
 电话:<input type='text' value='<?php echo $phone?>' name='phone'>
 </br>
 备注:<input type='textarea' value='<?php echo $extra?>' name='extra'>
+</br>
+
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/usermain">back_to_main</a>
