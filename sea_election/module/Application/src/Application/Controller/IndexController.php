@@ -24,6 +24,17 @@ class IndexController extends AbstractActionController {
     }
 
     public function getpostAction() {
+		$time = time();
+		$username = $_POST['username'];
+		$nickname = $_POST['nickname'];
+		$gender = $_POST['gender'];
+		$phone = $_POST['phone'];
+		$extra = $_POST['extra'];
+		$img_arr = explode(".",$_FILES["file"]["name"]);
+		$img_src = md5($time.$img_arr['0']);
+		move_uploaded_file($_FILES["file"]["tmp_name"],
+			"d://xampp/htdocs/chyproject/sea_election/public/upload/" . $img_src.'.'.$img_arr['1']);
+		$img_add = $img_src.'.'.$img_arr['1'];
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
             var_dump(mysql_error());
@@ -31,28 +42,19 @@ class IndexController extends AbstractActionController {
 
         mysql_select_db("sea_selection", $con);
 
-        // mysql_query("INSERT INTO user_info (u_id, username, extra_info) VALUES ('', 'chy', '123123')");
-
-        $result = mysql_query("SELECT * FROM user_info where u_id = 100");
-		var_dump(mysql_fetch_array($result));
-		exit;
-		//var_dump(result);exit;
-        $arr_username = array();
-        $arr_extra = array();
-
-        $i = '0';
-
-        while ($row = mysql_fetch_array($result)) {
-            $arr_extra[$i] = $row['extra_info'];
-            $arr_username[$i] = $row['username'];
-            $i++;
-        }
+        mysql_query("INSERT INTO user_info (u_id, username, nickname, gender, phone, extra_info, imgsrc) VALUES ('', '".$username."', '".$nickname."', '".$gender."', '".$phone."', '".$extra."', '".$img_add."')");
+		$u_id = mysql_insert_id();
 
         mysql_close($con);
-		var_dump($arr_extra);
-        $viewInfo = array('attr_extra' => $arr_extra,
-            'attr_name' => $arr_username,
-			'flag' => $i);
+		//var_dump($arr_extra);
+        $viewInfo = array(
+			'u_id' => $u_id,
+			'username' => $username,
+            'nickname' => $nickname,
+			'gender' => $gender,
+			'phone' => $phone,
+			'extra' => $extra,
+			'img_add' => "http://".$_SERVER['HTTP_HOST']."/upload/" .$img_add);
         return new ViewModel($viewInfo);
     }
 
@@ -299,4 +301,10 @@ class IndexController extends AbstractActionController {
 			'src' => "http://".$_SERVER['HTTP_HOST']."/upload/" . $_FILES["file"]["name"]);
         return new ViewModel($viewInfo);
 	}
+
+	public function loginAction()
+	{
+		return new ViewModel();
+	}
 }
+
