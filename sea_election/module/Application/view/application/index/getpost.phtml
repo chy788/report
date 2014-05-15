@@ -1,9 +1,20 @@
-<?php echo 'getpost<br>'; 
-
-for ($i=0;$i<$flag;$i++)
+用户id:<?php echo $u_id;?>
+</br>
+头像 <img src='<?php echo $img_add?>'>
+</br>
+用户名:<?php echo $username?>
+</br>
+昵称:<?php echo $nickname?>
+</br>
+性别:<?php 
+if($gender==1)
 {
-    echo $attr_name[$i].':'.$attr_extra[$i].'<br>';
-}
-
-
-?>
+echo '男';
+}else
+{
+echo '女';
+}?>
+</br>
+电话:<?php echo $phone?>
+</br>
+备注:<?php echo $extra?>
