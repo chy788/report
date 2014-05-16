@@ -1,0 +1,10 @@
+<form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/activedoedit" method="post" >
+<input type='hidden' name='activeid' value='<?php echo $activeid;?>'>
+活动名称:<input type="text" value="<?php echo $activename;?>" name="activename">
+</br>
+活动备注:<input type="text" value="<?php echo $activeextra;?>" name="extrainfo">
+</br>
+主办方id:<input type="text" value="<?php echo $hostid;?>" name="hostid">
+</br>
+<input type="submit" >
+</form>

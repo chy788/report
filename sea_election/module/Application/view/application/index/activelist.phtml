@@ -1,0 +1,11 @@
+<?php
+for($i=0;$i<$flag;$i++)
+{
+?>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/activeshow?id=<?php echo $arr_activeid[$i];?>"><?php echo $activename[$i];?></a>
+</br>
+<?php
+}
+?>
+</br>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/hostmain">hostmain</a>
