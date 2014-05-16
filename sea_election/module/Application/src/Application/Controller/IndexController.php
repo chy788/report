@@ -197,8 +197,13 @@ class IndexController extends AbstractActionController {
             'hostid' => $host_id);
         return new ViewModel($viewInfo);
     }
+
+	 public function signactiveAction() {
+		 return new ViewModel();
+	 }
 //创建活动方法
     public function createactiveAction() {
+		session_start();
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
             var_dump(mysql_error());
@@ -209,17 +214,136 @@ class IndexController extends AbstractActionController {
 
         $post_data = $_POST;
 
-        var_dump($post_data);
-
-        mysql_query("INSERT INTO host_active (active_id, active_name, active_extra, host_id) VALUES ('', '" . $post_data["username"] . "', '" . $post_data["extrainfo"] . "', '" . $post_data["hostid"] . "')");
+        mysql_query("INSERT INTO active (active_id, host_id, active_name, active_extra) VALUES ('', '" . $_SESSION['h_id'] . "', '" . $post_data["activename"] . "', '" . $post_data["extrainfo"] . "')");
 
         mysql_close($con);
 
-        $viewInfo = array('username' => $post_data["username"],
+        $viewInfo = array('username' => $post_data["activename"],
             'extrainfo' => $post_data["extrainfo"],
             'hostid' => $post_data["hostid"]);
         return new ViewModel($viewInfo);
     }
+//主办发查看信息列表
+	public function activelistAction() {
+		session_start();
+        $con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+
+        $post_data = $_POST;
+
+        $result = mysql_query("SELECT * FROM active where host_id = " . $_SESSION['h_id']);
+
+        $arr_activename = array();
+		$arr_activeid = array();
+
+        $i = '0';
+
+        while ($row = mysql_fetch_array($result)) {
+			$arr_activeid[$i] = $row['active_id'];
+            $arr_activename[$i] = $row['active_name'];
+            $i++;
+        }
+
+        mysql_close($con);
+
+        $viewInfo = array('activename' => $arr_activename,
+			'arr_activeid' => $arr_activeid,
+			'flag' => $i);
+        return new ViewModel($viewInfo);
+    }
+//查看活动信息
+	public function activeshowAction() {
+		session_start();
+        $con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+
+        $get_data = $_GET;
+
+        $result = mysql_query("SELECT * FROM active where active_id = " . $get_data['id'] . " and host_id = " . $_SESSION['h_id']);
+
+        $arr_activename = array();
+		$arr_activeid = array();
+
+		$row = mysql_fetch_array($result);
+		$activeid = $row['active_id'];
+        $activename = $row['active_name'];
+		$activeextra = $row['active_extra'];
+		$hostid = $row['host_id'];
+
+        mysql_close($con);
+
+        $viewInfo = array('activename' => $activename,
+			'activeid' => $activeid,
+			'activeextra' => $activeextra,
+			'hostid' => $hostid);
+        return new ViewModel($viewInfo);
+    }
+//编辑活动信息
+	public function editactiveAction() {
+		session_start();
+        $con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+
+        $get_data = $_GET;
+
+        $result = mysql_query("SELECT * FROM active where active_id = " . $get_data['id'] . " and host_id = " . $_SESSION['h_id']);
+
+        $arr_activename = array();
+		$arr_activeid = array();
+
+		$row = mysql_fetch_array($result);
+		$activeid = $row['active_id'];
+        $activename = $row['active_name'];
+		$activeextra = $row['active_extra'];
+		$hostid = $row['host_id'];
+
+        mysql_close($con);
+
+        $viewInfo = array('activename' => $activename,
+			'activeid' => $activeid,
+			'activeextra' => $activeextra,
+			'hostid' => $hostid);
+        return new ViewModel($viewInfo);
+    }
+//编辑活动方法
+	public function activedoeditAction() {
+		session_start();
+		//var_dump($_POST);exit;
+		$activeid = $_POST['activeid'];
+		$activename = $_POST['activename'];
+		$extrainfo = $_POST['extrainfo'];
+		$hostid = $_POST['hostid'];
+		$updatesql = "UPDATE active  set active_name = '".$activename."', active_extra = '".$extrainfo."' where active_id = '".$activeid."'";
+        $con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+
+        mysql_query($updatesql);
+		$u_id = mysql_insert_id();
+
+        mysql_close($con);
+		header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/activeshow?id='.$activeid);
+		exit;
+	}
 //展示主办方信息
     public function showhostinfoAction() {
         $con = mysql_connect('localhost', 'root', '');
