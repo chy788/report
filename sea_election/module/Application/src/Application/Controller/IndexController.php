@@ -22,7 +22,7 @@ class IndexController extends AbstractActionController {
     public function mainAction() {
         return new ViewModel();
     }
-
+//注册后台方法
     public function getpostAction() {
 		$time = time();
 		$username = $_POST['username'];
@@ -59,6 +59,38 @@ class IndexController extends AbstractActionController {
         return new ViewModel($viewInfo);
     }
 
+	public function getposthAction() {
+		$time = time();
+		$username = $_POST['username'];
+		$phone = $_POST['phone'];
+		$extra = $_POST['extra'];
+		$img_arr = explode(".",$_FILES["file"]["name"]);
+		$img_src = md5($time.$img_arr['0']);
+		move_uploaded_file($_FILES["file"]["tmp_name"],
+			"d://xampp/htdocs/chyproject/sea_election/public/upload/" . $img_src.'.'.$img_arr['1']);
+		$img_add = $img_src.'.'.$img_arr['1'];
+        $con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+
+        mysql_query("INSERT INTO host (host_id, username, password, phone, extre_info, imgsrc) VALUES ('', '".$username."', '111111', '".$phone."', '".$extra."', '".$img_add."')");
+		$u_id = mysql_insert_id();
+
+        mysql_close($con);
+		//var_dump($arr_extra);
+        $viewInfo = array(
+			'u_id' => $u_id,
+			'username' => $username,
+			'phone' => $phone,
+			'extra' => $extra,
+			'img_add' => "http://".$_SERVER['HTTP_HOST']."/upload/" .$img_add);
+        return new ViewModel($viewInfo);
+    }
+//用户编辑页面数据获取
 	public function edituserAction() {
 		session_start();
         $con = mysql_connect('localhost', 'root', '');
@@ -103,6 +135,46 @@ class IndexController extends AbstractActionController {
         return new ViewModel($viewInfo);
     }
 
+	public function edithostAction() {
+		session_start();
+        $con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+
+        $post_data = $_POST;
+		$search_id = $_SESSION['h_id'];
+
+        $result = mysql_query("SELECT * FROM host where host_id = ".$search_id);
+
+        $arr_activename = array();
+
+        //$i = '0';
+//var_dump(mysql_fetch_array($result));exit;
+        while ($row = mysql_fetch_array($result)) {
+			//username, password, nickname, gender, phone, extre_info, imgsrc
+			$h_id = $row['host_id'];
+            $username = $row['username'];
+			$phone = $row['phone'];
+			$extre_info = $row['extre_info'];
+			$imgsrc = "http://".$_SERVER['HTTP_HOST']."/upload/" . $row['imgsrc'];
+            //$i++;
+        }
+
+        mysql_close($con);
+
+        $viewInfo = array(
+			'h_id' => $h_id,
+			'username' => $username,
+			'phone' => $phone,
+			'extra' => $extre_info,
+			'imgsrc' => $imgsrc);
+        return new ViewModel($viewInfo);
+    }
+//创建主办方方法
     public function createhostAction() {
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
@@ -125,7 +197,7 @@ class IndexController extends AbstractActionController {
             'hostid' => $host_id);
         return new ViewModel($viewInfo);
     }
-
+//创建活动方法
     public function createactiveAction() {
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
@@ -148,7 +220,7 @@ class IndexController extends AbstractActionController {
             'hostid' => $post_data["hostid"]);
         return new ViewModel($viewInfo);
     }
-
+//展示主办方信息
     public function showhostinfoAction() {
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
@@ -176,7 +248,7 @@ class IndexController extends AbstractActionController {
         $viewInfo = array('activename' => $arr_activename);
         return new ViewModel($viewInfo);
     }
-
+//创建用户方法
     public function createuserAction() {
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
@@ -202,7 +274,7 @@ class IndexController extends AbstractActionController {
 
         return new ViewModel($viewInfo);
     }
-
+//用户报名参加活动页面
     public function signinAction() {
 
         $con = mysql_connect('localhost', 'root', '');
@@ -235,7 +307,7 @@ class IndexController extends AbstractActionController {
             'flag' => $i);
         return new ViewModel($viewInfo);
     }
-
+//用户报名参加活动方法
     public function signprocessAction() {
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
@@ -257,7 +329,7 @@ class IndexController extends AbstractActionController {
 
         return new ViewModel($viewInfo);
     }
-
+//用户查看已参加的活动
     public function searchactiveAction() {
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
@@ -289,7 +361,7 @@ class IndexController extends AbstractActionController {
         $viewInfo = array('activename' => $arr_activename);
         return new ViewModel($viewInfo);
     }
-    
+    //主办方查看活动的报名信息
     public function searchuserAction() {
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
@@ -322,7 +394,7 @@ class IndexController extends AbstractActionController {
         return new ViewModel($viewInfo);
     }
 
-
+//上传方法
 	public function uploadAction()
 	{		
 		if ($_FILES["file"]["error"] > 0)
@@ -360,6 +432,11 @@ class IndexController extends AbstractActionController {
 		return new ViewModel();
 	}
 
+	public function registhAction()
+	{
+		return new ViewModel();
+	}
+
 	public function loginAction()
 	{
 		session_start();
@@ -372,18 +449,39 @@ class IndexController extends AbstractActionController {
         mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
-
-        $result = mysql_query("SELECT * FROM user_info where username='".$post_data['username']."' and password='".$post_data['password']."'");
-
-        $arr_activename = array();
-		$row = mysql_fetch_array($result);
-		if($row)
+		$type = $_POST['type'];
+		if($type == '1')
 		{
-			header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/usermain');
-		}else
-		{
-			$viewInfo = array('result' => '1');
-		}
+
+			$result = mysql_query("SELECT * FROM user_info where username='".$post_data['username']."' and password='".$post_data['password']."'");
+			//var_dump("SELECT * FROM user_info where username='".$post_data['username']."' and password='".$post_data['password']."'");
+			$arr_activename = array();
+			$row = mysql_fetch_array($result);
+			if($row['u_id'])
+			{
+				$_SESSION['u_id']=$row['u_id'];
+				header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/usermain');
+				exit;
+			}else
+			{
+				$viewInfo = array('result' => '1');
+			}
+		}else if($type == '2')
+			{
+				$result = mysql_query("SELECT * FROM host where username='".$post_data['username']."' and password='".$post_data['password']."'");
+
+				$arr_activename = array();
+				$row = mysql_fetch_array($result);
+				if($row)
+				{
+					$_SESSION['h_id']=$row['host_id'];
+					header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/hostmain');
+					exit;
+				}else
+				{
+					$viewInfo = array('result' => '1');
+				}
+			}
 	}
 
 	public function usermainAction()
@@ -416,7 +514,6 @@ class IndexController extends AbstractActionController {
 		$_SESSION['u_id']=$u_id;
         mysql_close($con);
         $viewInfo = array(
-			'result' => '0',
 			'username' => $username,
 			'nickname' => $nickname,
 			'gender' => $gender,
@@ -424,6 +521,119 @@ class IndexController extends AbstractActionController {
 			'extra' => $extre_info,
 			'imgsrc' => $imgsrc);
         return new ViewModel($viewInfo);
+	}
+
+	public function hostmainAction()
+	{
+		session_start();
+		$con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+
+        $post_data = $_POST;
+
+        $result = mysql_query("SELECT * FROM host where host_id='".$_SESSION['h_id']."'");
+			
+        $arr_activename = array();
+		$row = mysql_fetch_array($result);
+			//username, password, nickname, gender, phone, extre_info, imgsrc
+			$host_id = $row['host_id'];
+            $username = $row['username'];
+			$phone = $row['phone'];
+			$extre_info = $row['extre_info'];
+			$imgsrc = "http://".$_SERVER['HTTP_HOST']."/upload/" . $row['imgsrc'];
+            //$i++;
+		
+		$_SESSION['h_id']=$host_id;
+        mysql_close($con);
+        $viewInfo = array(
+			'result' => '0',
+			'username' => $username,
+			'phone' => $phone,
+			'extra' => $extre_info,
+			'imgsrc' => $imgsrc);
+        return new ViewModel($viewInfo);
+	}
+
+	public function doeditAction() {
+		session_start();
+		$time = time();
+		$username = $_POST['username'];
+		$nickname = $_POST['nickname'];
+		$gender = $_POST['gender'];
+		$phone = $_POST['phone'];
+		$extra = $_POST['extra'];
+		if($_FILES["file"]["name"])
+		{
+		$img_arr = explode(".",$_FILES["file"]["name"]);
+		$img_src = md5($time.$img_arr['0']);
+		move_uploaded_file($_FILES["file"]["tmp_name"],
+			"d://xampp/htdocs/chyproject/sea_election/public/upload/" . $img_src.'.'.$img_arr['1']);
+		$img_add = $img_src.'.'.$img_arr['1'];
+
+		$updatesql = "UPDATE user_info  set username = '".$username."', nickname = '".$nickname."', gender = '".$gender."', phone = '".$phone."', extre_info = '".$extra."', imgsrc = '".$img_add."' where u_id = '".$_SESSION['u_id']."'";
+
+		}else
+		{
+			$updatesql = "UPDATE user_info  set username = '".$username."', nickname = '".$nickname."', gender = '".$gender."', phone = '".$phone."', extre_info = '".$extra."' where u_id = '".$_SESSION['u_id']."'";
+
+		}
+        $con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+
+        mysql_query($updatesql);
+		$u_id = mysql_insert_id();
+
+        mysql_close($con);
+		header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/usermain');
+		exit;
+	}
+
+	public function hostdoeditAction() {
+		session_start();
+		//var_dump($_POST);exit;
+		$time = time();
+		$username = $_POST['username'];
+		$phone = $_POST['phone'];
+		$extra = $_POST['extra'];
+		if($_FILES["file"]["name"])
+		{
+		$img_arr = explode(".",$_FILES["file"]["name"]);
+		$img_src = md5($time.$img_arr['0']);
+		move_uploaded_file($_FILES["file"]["tmp_name"],
+			"d://xampp/htdocs/chyproject/sea_election/public/upload/" . $img_src.'.'.$img_arr['1']);
+		$img_add = $img_src.'.'.$img_arr['1'];
+
+		$updatesql = "UPDATE host  set username = '".$username."', phone = '".$phone."', extre_info = '".$extra."', imgsrc = '".$img_add."' where host_id = '".$_SESSION['h_id']."'";
+
+		}else
+		{
+			$updatesql = "UPDATE host  set username = '".$username."', phone = '".$phone."', extre_info = '".$extra."' where host_id = '".$_SESSION['h_id']."'";
+
+		}
+        $con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+
+        mysql_query($updatesql);
+		$u_id = mysql_insert_id();
+
+        mysql_close($con);
+		header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/hostmain');
+		exit;
 	}
 }
 
