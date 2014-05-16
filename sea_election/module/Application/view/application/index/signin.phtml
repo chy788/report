@@ -1,14 +1,23 @@
-<?php 
+﻿<?php 
 for ($i=0;$i<$flag;$i++)
 {
     echo $activeid[$i].":".$activename[$i].'<br>';
 }
   echo $value . '<br>';
 ?>
-<form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/signprocess" method="post" >
-<input type='text' value='userid' name='userid'>
-<input type='text' value='activeid' name='activeid'>
-<input type='submit'>
+<form class="welcome" action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/signprocess" method="post" >
+<div class="login">普通用户登陆</div>
+<div class="username-text">用户名:</div>
+<div class="password-text">密码:</div>
+<div class="username-field">
+	<input type="text" name="userid" value="userid" />
+</div>
+<div class="password-field">
+	<input type="password" name="activeid" value="activeid" />
+</div>
+<input type="checkbox" name="remember-me" id="remember-me" /><label for="remember-me">记住我</label>
+<div class="forgot-usr-pwd">忘记 <a href="#">用户名</a> 或 <a href="#">密码</a>?</div>
+<input type="submit" name="submit" value="GO" />
 </form>
 
 <a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/main">main</a>

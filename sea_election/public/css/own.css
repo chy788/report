@@ -1,0 +1,180 @@
+.navbar{display:none}
+input {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 0 none;
+}
+.welcome {
+text-align:center;
+margin:0 auto;
+margin-top:80px;
+    background: url("../img/form-bg.png") no-repeat scroll left top rgba(0, 0, 0, 0);
+    height: 262px;
+    padding-top: 1px;
+    width: 524px;
+}
+.login{
+    float: left;
+    font-size: 20px;
+    margin-left: 40px;
+    margin-top: 33px;
+    width: 470px;
+	font-family: Verdana, Arial;
+	font-weight: normal;
+	color: #ffffff;
+	text-align:left;
+}
+.username-text {
+    float: left;
+    margin-left: 40px;
+    margin-top: 50px;
+    width: 190px;
+	font-family: Verdana, Arial;
+	font-weight: normal;
+	color: #ffffff;
+	font-size: 12px;
+	text-align:left;
+}
+.password-text {
+    float: left;
+    margin-left: 0;
+    margin-top: 50px;
+    width: 290px;
+	font-weight: normal;
+	font-family: Verdana, Arial;
+	color: #ffffff;
+	font-size: 12px;
+	text-align:left;
+}
+.username-field {
+    background: url("../img/username-field.png") no-repeat scroll left center rgba(0, 0, 0, 0);
+    float: left;
+    height: 38px;
+    margin-left: 35px;
+    margin-top: 10px;
+    width: 168px;
+	text-align:left;
+}
+.username-field:hover {
+	background: url(../img/username-field-hover.png) center left no-repeat;
+}
+
+.password-field {
+	width: 280px;
+	height: 38px;
+	float:left;
+	margin-top: 10px;
+	margin-left: 22px;
+	text-align:left;
+	background: url(../img/password-field.png) center left no-repeat;
+}
+
+.password-field:hover {
+	background: url(../img/password-field-hover.png) center left no-repeat;	
+}
+input[type="text"], input[type="password"] {
+	width: 120px;
+	height: 16px;
+	margin-top: 10px;
+	margin-left: 10px;
+	font-family: Verdana, Arial;
+	font-size: 16px;
+	color: #2d2d2d;
+	text-align:left;
+}
+input[type="submit"] {
+    color: #FFFFFF;
+    float: left;
+    font-family: Verdana,Arial;
+    font-size: 26px;
+	font-weight: normal;
+    height: 73px;
+    margin-left: 2px;
+    width: 95px;
+}
+input[type="submit"]:hover, input[type="submit"]:focus {
+    background: url("../img/go-hover.png") no-repeat scroll left top rgba(0, 0, 0, 0);
+}
+input[type="checkbox"] {
+	position: absolute;
+	left: -999px;
+}
+
+input[type="checkbox"] + label {
+	width: 132px;
+	height: 24px;
+	float: left;
+	margin-top: 26px;
+	margin-left: 37px;
+	padding-left: 28px;
+	display: block;
+	position: relative;
+	line-height: 24px;
+	font-weight: normal;
+	font-family: Verdana, Arial;
+	color: #ffffff;
+	font-size: 12px;
+	text-align:left;
+	background: url(../img/checkbox-off.png) top left no-repeat;
+}
+
+input[type="checkbox"]:checked + label {
+	background: url(../img/checkbox-on.png) top left no-repeat;
+}
+
+input[type="checkbox"]:checked:hover + label, input[type="checkbox"]:checked:focus + label {
+	background: url(../img/checkbox-on-hover.png) top left no-repeat;
+}
+
+input[type="checkbox"]:not(:checked):hover + label, input[type="checkbox"]:not(:checked):focus + label {
+	background: url(../img/checkbox-off-hover.png) top left no-repeat;
+}
+
+/* -------------------------------------------------------------------------- */
+
+.forgot-usr-pwd {
+	width: 220px;
+	float: left;
+	margin-top: 26px;
+	margin-left: 25px;
+	color: #cccccc;
+	line-height: 24px;
+	font-weight: normal;
+	font-family: Verdana, Arial;
+	color: #ffffff;
+	font-size: 12px;
+}
+
+.forgot-usr-pwd a {
+	color: #cccccc;
+	text-decoration: none;
+	font-style: italic;
+}
+
+.forgot-usr-pwd a:hover, .forgot-usr-pwd a:focus {
+	text-decoration: underline;
+}
+
+footer {
+	margin: auto;
+	margin-top: 50px;
+	width: 500px;
+	height: 30px;
+	background: url(../img/footer-bg.png) bottom center no-repeat;
+	text-align: center;
+	font-family: "Times New Roman", Times, Georgia;
+	font-weight: normal;
+	font-size: 16px;
+	color: #8d8d8d;
+}
+hr{
+display:none;
+}
+#footer a {
+	text-decoration: none;
+	color: #8d8d8d;
+}
+
+#footer a:hover, #footer a:focus {
+	text-decoration: none;
+	color: #2d2d2d;
+}
