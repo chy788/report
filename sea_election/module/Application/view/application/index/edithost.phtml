@@ -1,4 +1,4 @@
-<form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/doedit" method="post" 
+<form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/hostdoedit" method="post" 
 enctype="multipart/form-data">
 上传头像
 <div>
@@ -6,18 +6,13 @@ enctype="multipart/form-data">
 <input type="file" name="file" id="file" /> 
 <br />
 
-用户id:<?php echo $u_id;?>
+用户id:<?php echo $h_id;?>
 </br>
 头像 <img src='<?php echo $imgsrc?>'>
 </br>
 用户名:<input type='text' value='<?php echo $username?>' name='username'>
 </br>
-昵称:<input type='text' value='<?php echo $nickname?>' name='nickname'>
-</br>
-性别:
-<input type="radio" name='gender' value='1' <?php if($gender==1){echo 'checked';}?>>男
-<input type="radio" name='gender' value='2' <?php if($gender==2){echo 'checked';}?>>女
-</br>
+
 电话:<input type='text' value='<?php echo $phone?>' name='phone'>
 </br>
 备注:<input type='textarea' value='<?php echo $extra?>' name='extra'>

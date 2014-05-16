@@ -1,4 +1,4 @@
-<?php if($result=='0'){?>
+
 用户id:<?php echo $_SESSION['u_id'];?>
 </br>
 头像 <img src='<?php echo $imgsrc?>'>
@@ -19,9 +19,5 @@ echo '女';
 电话:<?php echo $phone?>
 </br>
 备注:<?php echo $extra?>
-<?php }
-else if($result=='1')
-?>
-不存在此用户
 </br>
 <a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/edituser">edit_info</a>
