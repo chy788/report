@@ -1,7 +1,27 @@
 .navbar{display:none}
-input {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
-    border: 0 none;
+footer {
+	margin: auto;
+	margin-top: 50px;
+	width: 500px;
+	height: 30px;
+	background: url(../img/footer-bg.png) bottom center no-repeat;
+	text-align: center;
+	font-family: "Times New Roman", Times, Georgia;
+	font-weight: normal;
+	font-size: 16px;
+	color: #8d8d8d;
+}
+hr{
+display:none;
+}
+#footer a {
+	text-decoration: none;
+	color: #8d8d8d;
+}
+
+#footer a:hover, #footer a:focus {
+	text-decoration: none;
+	color: #2d2d2d;
 }
 .welcome {
 text-align:center;
@@ -57,7 +77,18 @@ margin-top:80px;
 .username-field:hover {
 	background: url(../img/username-field-hover.png) center left no-repeat;
 }
-
+.input-username-field{
+   background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 0 none;
+	width: 120px;
+	height: 16px;
+	margin-top: 10px;
+	margin-left: 10px;
+	font-family: Verdana, Arial;
+	font-size: 16px;
+	color: #2d2d2d;
+	text-align:left;
+}
 .password-field {
 	width: 280px;
 	height: 38px;
@@ -71,35 +102,10 @@ margin-top:80px;
 .password-field:hover {
 	background: url(../img/password-field-hover.png) center left no-repeat;	
 }
-input[type="text"], input[type="password"] {
-	width: 120px;
-	height: 16px;
-	margin-top: 10px;
-	margin-left: 10px;
-	font-family: Verdana, Arial;
-	font-size: 16px;
-	color: #2d2d2d;
-	text-align:left;
+.ra2{
+margin-left:100px !important 
 }
-input[type="submit"] {
-    color: #FFFFFF;
-    float: left;
-    font-family: Verdana,Arial;
-    font-size: 26px;
-	font-weight: normal;
-    height: 73px;
-    margin-left: 2px;
-    width: 95px;
-}
-input[type="submit"]:hover, input[type="submit"]:focus {
-    background: url("../img/go-hover.png") no-repeat scroll left top rgba(0, 0, 0, 0);
-}
-input[type="checkbox"] {
-	position: absolute;
-	left: -999px;
-}
-
-input[type="checkbox"] + label {
+.regist{
 	width: 132px;
 	height: 24px;
 	float: left;
@@ -111,27 +117,11 @@ input[type="checkbox"] + label {
 	line-height: 24px;
 	font-weight: normal;
 	font-family: Verdana, Arial;
-	color: #ffffff;
-	font-size: 12px;
+	color: #cccccc;
+	font-size: 15px;
 	text-align:left;
-	background: url(../img/checkbox-off.png) top left no-repeat;
 }
-
-input[type="checkbox"]:checked + label {
-	background: url(../img/checkbox-on.png) top left no-repeat;
-}
-
-input[type="checkbox"]:checked:hover + label, input[type="checkbox"]:checked:focus + label {
-	background: url(../img/checkbox-on-hover.png) top left no-repeat;
-}
-
-input[type="checkbox"]:not(:checked):hover + label, input[type="checkbox"]:not(:checked):focus + label {
-	background: url(../img/checkbox-off-hover.png) top left no-repeat;
-}
-
-/* -------------------------------------------------------------------------- */
-
-.forgot-usr-pwd {
+.forgot-usr-pwd{
 	width: 220px;
 	float: left;
 	margin-top: 26px;
@@ -140,41 +130,102 @@ input[type="checkbox"]:not(:checked):hover + label, input[type="checkbox"]:not(:
 	line-height: 24px;
 	font-weight: normal;
 	font-family: Verdana, Arial;
-	color: #ffffff;
-	font-size: 12px;
+	font-size: 15px;
 }
-
-.forgot-usr-pwd a {
+.forgot-usr-pwd a, .regist a{
 	color: #cccccc;
 	text-decoration: none;
 	font-style: italic;
 }
-
-.forgot-usr-pwd a:hover, .forgot-usr-pwd a:focus {
+.forgot-usr-pwd a:hover, .forgot-usr-pwd a:focus ,.regist a:focus {
 	text-decoration: underline;
 }
-
-footer {
-	margin: auto;
-	margin-top: 50px;
-	width: 500px;
-	height: 30px;
-	background: url(../img/footer-bg.png) bottom center no-repeat;
-	text-align: center;
-	font-family: "Times New Roman", Times, Georgia;
+.submit-login{
+ background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 0 none;
+color: #FFFFFF;
+    float: left;
+    font-family: Verdana,Arial;
+    font-size: 26px;
 	font-weight: normal;
-	font-size: 16px;
-	color: #8d8d8d;
+    height: 73px;
+    margin-left: 2px;
+    width: 95px;
 }
-hr{
-display:none;
-}
-#footer a {
-	text-decoration: none;
-	color: #8d8d8d;
+.submit-login:hover,.submit-login:focus{
+background: url("../img/go-hover.png") no-repeat scroll left top rgba(0, 0, 0, 0);
 }
 
-#footer a:hover, #footer a:focus {
-	text-decoration: none;
-	color: #2d2d2d;
+.regist-title{
+font-weight: bold;
+	font-family: 'Open Sans Condensed', sans-serif;
+text-align:center;
+font-size:30px;
+color: #FFFFFF;
+border-bottom-style :solid;
+border-bottom-color:#84D2E7;
+border-bottom-width:1px;
+margin-top:50px;
+margin-bottom:50px;
+margin-left:50px;
+margin-right:50px;
+padding-bottom: 30px;
+}
+.regist-container{
+border-style:solid;
+border-color:#84D2E7;
+border-width:1px;
+padding-bottom: 20px;
+}
+.upload-photo{
+float:right;
+margin-right:150px;
+}
+.upload-button{
+display:none !important;
+}
+.upload-label{
+margin-top:10px;
+margin-left:30px;
+  background-color: #FFFFFF;
+   border-color: #CCCCCC;
+    color: #333333;
+display:block;
+-moz-user-select: none;
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.upload-label:hover,.upload-label:focus{
+background-color: #EBEBEB;
+    border-color: #ADADAD;
+    color: #333333;
+}
+.info{
+margin-left:150px;
+color:#FFFFFF;
+font-family: 'Open Sans Condensed', sans-serif;
+font-size:15px;
+font-weight: bold;
+}
+
+.info-title{
+font-weight: bold;
+font-size:24px;
+margin-bottom:10px;
+}
+.form-group input {
+    margin-bottom: 15px;
+	margin-top:5px;
+}
+.regist-span{
+margin-left:350px;
 }

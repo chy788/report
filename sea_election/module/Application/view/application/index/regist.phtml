@@ -1,31 +1,77 @@
+<div class="regist-container">
+<h3 class="regist-title">用户注册</h3>
 <form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/getpost" method="post" 
 enctype="multipart/form-data">
-上传头像
-<div>
-<label for="file">Filename:</label>
-<input type="file" name="file" id="file" /> 
-<br />
 
 
+<div class="upload-photo">
+<img src="/img/undifined-photo.jpg" id="img0" width="148" height="148" >
+<input type="button" class="upload-label" onclick="imgupload.click()" value="上传图片"/>
+<input class="upload-button" type="file" name="imgupload" id="imgupload" /> 
 </div>
 
-基本信息
-<div>
-用户名:<input type='text' name='username'>
-<br />
-昵  称:<input type='text' name='nickname'>
-<br />
-<input type="radio" name='gender' value='1'>男
-<input type="radio" name='gender' value='2'>女
-<br />
-联系方式:<input type='text' name='phone'>
-<br />
-备注:<input type='textarea' name='extra'>
-<br />
+<div class="info">
+<h4 class="info-title">基本信息</h4>
+<div class="form-group">
+用户名
+<br/>
+<input type='text' name='username'>
 </div>
-
-<input type='submit'>
-
+<div class="form-group">
+昵  称
+<br/>
+<input type='text' name='nickname'>
+</div>
+<div class="form-group">
+性别
+<br/>
+<input type="radio" name='gender' value='1'>男</input>
+<input class="ra2" type="radio" name='gender' value='2'>女</input>
+</div>
+<div class="form-group">
+联系方式
+<br/>
+<input type='text' name='phone'>
+</div>
+<div class="form-group">
+备注
+<br/>
+<input type='textarea' name='extra'>
+</div>
+</div>
+<div class="regist-span">
+<input class="upload-label" type='submit' value="注册">
+</div>
 </form>
 
 <a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/login"></a>
+</div>
+
+ <script> 
+    /**
+18
+     * 使用HTML5 File API, 來即時預覽image
+19
+     */
+    $("#imgupload").change(function(){
+        var objUrl = getObjectURL(this.files[0]) ;
+        if (objUrl) {
+            $("#img0").attr("src", objUrl) ;
+        }
+    }) ;
+    /**
+     * 建立一個可存取到該file的url
+     * PS: 瀏覽器必須支援HTML5 File API
+     */
+    function getObjectURL(file) {
+        var url = null ;
+        if (window.createObjectURL!=undefined) { // basic
+            url = window.createObjectURL(file) ;
+        } else if (window.URL!=undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file) ;
+        } else if (window.webkitURL!=undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file) ;
+        }
+        return url ;
+    }
+    </script>
