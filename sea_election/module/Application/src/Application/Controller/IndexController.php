@@ -399,7 +399,7 @@ class IndexController extends AbstractActionController {
         return new ViewModel($viewInfo);
     }
 //用户报名参加活动页面
-    public function signinAction() {
+    public function allactiveAction() {
 
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
@@ -411,16 +411,17 @@ class IndexController extends AbstractActionController {
 
         $post_data = $_POST;
 
-        $result = mysql_query("SELECT * FROM host_active");
+        $result = mysql_query("SELECT * FROM active");
 
         $arr_activename = array();
         $arr_activeid = array();
-
+		$arr_hostid = array();
         $i = '0';
 
         while ($row = mysql_fetch_array($result)) {
             $arr_activename[$i] = $row['active_name'];
             $arr_activeid[$i] = $row['active_id'];
+			$arr_hostid[$i] = $row['host_id'];
             $i++;
         }
 
@@ -428,11 +429,47 @@ class IndexController extends AbstractActionController {
 
         $viewInfo = array('activename' => $arr_activename,
             'activeid' => $arr_activeid,
+			'hostid' => $arr_hostid,
             'flag' => $i);
         return new ViewModel($viewInfo);
     }
+
+//用户查看活动详情页面
+	public function useractiveshowAction()
+	{
+		$con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+
+        $get_data = $_GET;
+
+        $result = mysql_query("SELECT * FROM active where active_id = " . $get_data['id']);
+
+        $arr_activename = array();
+		$arr_activeid = array();
+
+		$row = mysql_fetch_array($result);
+		$activeid = $row['active_id'];
+        $activename = $row['active_name'];
+		$activeextra = $row['active_extra'];
+		$hostid = $row['host_id'];
+
+        mysql_close($con);
+
+        $viewInfo = array('activename' => $activename,
+			'activeid' => $activeid,
+			'activeextra' => $activeextra,
+			'hostid' => $hostid);
+        return new ViewModel($viewInfo);
+	}
+
 //用户报名参加活动方法
     public function signprocessAction() {
+		session_start();
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
             var_dump(mysql_error());
@@ -442,19 +479,24 @@ class IndexController extends AbstractActionController {
         mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
+		//$get_data = $_GET;
 
-        mysql_query("INSERT INTO relation (u_id, active_id) VALUES ('" . $post_data["userid"] . "', '" . $post_data["activeid"] . "')");
+        mysql_query("INSERT INTO relation (user_id, active_id, update_time) VALUES ('" . $_SESSION['u_id'] . "', '" . $post_data["active_id"] . "', '" . time() . "')");
 
         $user_id = mysql_insert_id();
 
         mysql_close($con);
 
-        $viewInfo = array('result' => 'success');
+		header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/allactive');
+		exit;
 
-        return new ViewModel($viewInfo);
+        //$viewInfo = array('result' => 'success');
+
+        //return new ViewModel($viewInfo);
     }
 //用户查看已参加的活动
     public function searchactiveAction() {
+		session_start();
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
             var_dump(mysql_error());
@@ -465,7 +507,7 @@ class IndexController extends AbstractActionController {
 
         $post_data = $_POST;
 
-        $result = mysql_query("SELECT distinct * FROM relation where u_id = " . $post_data['userid']);
+        $result = mysql_query("SELECT distinct * FROM relation where user_id = " . $_SESSION['u_id']);
 
         $arr_activename = array();
 
@@ -473,7 +515,7 @@ class IndexController extends AbstractActionController {
 
         while ($row = mysql_fetch_array($result)) {
             $activeid = $row['active_id'];
-            $result_activename = mysql_query("SELECT * FROM host_active where active_id = " . $activeid);
+            $result_activename = mysql_query("SELECT * FROM active where active_id = " . $activeid);
             while ($row_active = mysql_fetch_array($result_activename)) {
                 $arr_activename[$i] = $row_active['active_name'];
                 $i++;
@@ -496,15 +538,16 @@ class IndexController extends AbstractActionController {
         mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
+		$get_data = $_GET;
 
-        $result = mysql_query("SELECT distinct * FROM relation where active_id = " . $post_data['activeid']);
+        $result = mysql_query("SELECT distinct * FROM relation where active_id = " . $get_data['id']);
 
         $arr_username = array();
 
         $i = '0';
 
         while ($row = mysql_fetch_array($result)) {
-            $userid = $row['u_id'];
+            $userid = $row['user_id'];
             $result_username = mysql_query("SELECT * FROM user_info where u_id = " . $userid);
             while ($row_user = mysql_fetch_array($result_username)) {
                 $arr_username[$i] = $row_user['username'];
@@ -550,17 +593,17 @@ class IndexController extends AbstractActionController {
 			'src' => "http://".$_SERVER['HTTP_HOST']."/upload/" . $_FILES["file"]["name"]);
         return new ViewModel($viewInfo);
 	}
-
+//普通用户注册页面
 	public function registAction()
 	{
 		return new ViewModel();
 	}
-
+//主办方注册页面
 	public function registhAction()
 	{
 		return new ViewModel();
 	}
-
+//登陆页面
 	public function loginAction()
 	{
 		session_start();
@@ -607,7 +650,7 @@ class IndexController extends AbstractActionController {
 				}
 			}
 	}
-
+//用户主页
 	public function usermainAction()
 	{
 		session_start();
@@ -646,7 +689,7 @@ class IndexController extends AbstractActionController {
 			'imgsrc' => $imgsrc);
         return new ViewModel($viewInfo);
 	}
-
+//主办方主页 
 	public function hostmainAction()
 	{
 		session_start();
@@ -682,7 +725,7 @@ class IndexController extends AbstractActionController {
 			'imgsrc' => $imgsrc);
         return new ViewModel($viewInfo);
 	}
-
+//用户编辑方法
 	public function doeditAction() {
 		session_start();
 		$time = time();
@@ -721,7 +764,7 @@ class IndexController extends AbstractActionController {
 		header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/usermain');
 		exit;
 	}
-
+//主办方编辑方法
 	public function hostdoeditAction() {
 		session_start();
 		//var_dump($_POST);exit;
