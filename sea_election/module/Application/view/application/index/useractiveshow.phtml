@@ -1,0 +1,18 @@
+
+active_id:<?php echo $activeid;?>
+</br>
+
+活动名:<?php echo $activename;?>
+</br>
+
+主办方id:<?php echo $hostid;?>
+</br>
+活动备注:<?php echo $activeextra;?>
+</br>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/allactive">allactive</a>
+
+<form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/signprocess" method="post" >
+<input type='hidden' name='active_id' value='<?php echo $activeid;?>'>
+<input type='submit'>
+</form>
+

@@ -6,4 +6,4 @@ foreach ($username as $value) {
 
 ?>
 
-<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/signprocess">main</a>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/main">main</a>

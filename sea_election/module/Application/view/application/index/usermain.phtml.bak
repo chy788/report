@@ -24,4 +24,4 @@ echo '女';
 </br>
 <a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/allactive">查看所有活动列表</a>
 </br>
-<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/searchactive">查看已经报名的活动</a>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/allactive">查看已经报名的活动</a>

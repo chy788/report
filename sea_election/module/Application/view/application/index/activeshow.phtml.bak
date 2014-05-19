@@ -13,5 +13,5 @@ active_id:<?php echo $activeid;?>
 </br>
 <a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/activelist">activelist</a>
 </br>
-<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/searchuser?id=<?php echo $activeid;?>">searchuser</a>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/searchuser">searchuser</a>
 
