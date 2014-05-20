@@ -1,26 +1,36 @@
+<div class="regist-container">
+<h3 class="regist-title">主办方注册</h3>
 <form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/getposth" method="post" 
 enctype="multipart/form-data">
-上传头像
-<div>
-<label for="file">Filename:</label>
-<input type="file" name="file" id="file" /> 
-<br />
-
-
+<div class="upload-photo">
+<img src="/img/undifined-photo.jpg" id="img0" width="148" height="148" >
+<input type="button" class="upload-label" onclick="imgupload.click()" value="上传图片"/>
+<input class="upload-button" type="file" name="imgupload" id="imgupload" /> 
 </div>
 
-基本信息
-<div>
-用户名:<input type='text' name='username'>
-<br />
-联系方式:<input type='text' name='phone'>
-<br />
-备注:<input type='textarea' name='extra'>
-<br />
+<div class="info">
+<h4 class="info-title">基本信息</h4>
+<div class="form-group">
+用户名
+<br/>
+<input type='text' name='username'>
 </div>
-
-<input type='submit'>
-
+<div class="form-group">
+联系方式
+<br/>
+<input type='text' name='phone'>
+</div>
+<div class="form-group">
+备注
+<br/>
+<input type='textarea' name='extra'>
+</div>
+</div>
+<div class="regist-span">
+<input class="upload-label" type='submit' value="注册">
+</div>
 </form>
+</div>
+
 
 <a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/login"></a>
