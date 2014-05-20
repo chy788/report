@@ -13,6 +13,18 @@ active_id:<?php echo $activeid;?>
 
 <form action="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/signprocess" method="post" >
 <input type='hidden' name='active_id' value='<?php echo $activeid;?>'>
+<?php  
+if($dub=='0')
+{
+?>
 <input type='submit'>
+<?php 
+}else
+{
+?>
+您已经报过名
+<?php 
+}
+?>
 </form>
 
