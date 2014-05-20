@@ -1,0 +1,35 @@
+<div class="regist-container">
+<div class="upload-photo">
+<img src='<?php echo $imgsrc?>' id="img0">
+</div>
+<div class="info">
+<h4 class="info-title">基本信息</h4>
+<div class="form-group">
+用户id:<?php echo $u_id;?>
+</div>
+<div class="form-group">
+用户名:<?php echo $username?>
+</div>
+<div class="form-group">
+昵称:<?php echo $nickname?>
+</div>
+<div class="form-group">
+性别:<?php 
+if($gender==1)
+{
+echo '男';
+}else
+{
+echo '女';
+}?>
+</div>
+<div class="form-group">
+电话:<?php echo $phone?>
+</div>
+<div class="form-group">
+备注:<?php echo $extra?>
+</div>
+</div>
+</div>
+</br>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/hostmain">hostmain</a>

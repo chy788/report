@@ -1,9 +1,10 @@
 <?php 
-
-foreach ($username as $value) {
-    echo $value . '<br>';
-}
-
+for($i=0;$i<$flag;$i++)
+{
 ?>
-
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/getuser?id=<?php echo $userid[$i];?>"><?php echo $username[$i];?></a>
+</br>
+<?php 
+}
+?>
 <a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/hostmain">hostmain</a>
