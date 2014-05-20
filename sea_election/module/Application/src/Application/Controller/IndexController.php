@@ -436,6 +436,7 @@ class IndexController extends AbstractActionController {
 //用户查看活动详情页面
 	public function useractiveshowAction()
 	{
+		session_start();
 		$con = mysql_connect('localhost', 'root', '');
         if (!$con) {
             var_dump(mysql_error());
@@ -456,13 +457,23 @@ class IndexController extends AbstractActionController {
         $activename = $row['active_name'];
 		$activeextra = $row['active_extra'];
 		$hostid = $row['host_id'];
+		$ifsign = '0';
+		
+		$if_dub = mysql_query("SELECT * FROM relation where active_id = " . $get_data['id'] ." and user_id = " . $_SESSION['u_id']);
+		$d_res = mysql_fetch_array($if_dub);
+		//var_dump($d_res);
+		if($d_res)
+		{
+			$ifsign = '1';
+		}
 
         mysql_close($con);
 
         $viewInfo = array('activename' => $activename,
 			'activeid' => $activeid,
 			'activeextra' => $activeextra,
-			'hostid' => $hostid);
+			'hostid' => $hostid,
+			'dub' => $ifsign);
         return new ViewModel($viewInfo);
 	}
 
@@ -509,6 +520,7 @@ class IndexController extends AbstractActionController {
         $result = mysql_query("SELECT distinct * FROM relation where user_id = " . $_SESSION['u_id']);
 
         $arr_activename = array();
+		$arr_id = array();
 
         $i = '0';
 
@@ -517,13 +529,16 @@ class IndexController extends AbstractActionController {
             $result_activename = mysql_query("SELECT * FROM active where active_id = " . $activeid);
             while ($row_active = mysql_fetch_array($result_activename)) {
                 $arr_activename[$i] = $row_active['active_name'];
+				$arr_id[$i] = $activeid;
                 $i++;
             }     
         }
 
         mysql_close($con);
 
-        $viewInfo = array('activename' => $arr_activename);
+        $viewInfo = array('activename' => $arr_activename,
+			'activeid' => $arr_id,
+			'flag' => $i);
         return new ViewModel($viewInfo);
     }
     //主办方查看活动的报名信息
