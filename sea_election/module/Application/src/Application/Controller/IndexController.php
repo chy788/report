@@ -89,6 +89,88 @@ class IndexController extends AbstractActionController {
 			'img_add' => "http://".$_SERVER['HTTP_HOST']."/upload/" .$img_add);
         return new ViewModel($viewInfo);
     }
+//用户详细信息
+public function getuserAction() {
+		session_start();
+        $con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+
+        $post_data = $_POST;
+		$get_data = $_GET;
+		$search_id = $_SESSION['u_id'];
+
+        $result = mysql_query("SELECT * FROM user_info where u_id = ".$get_data['id']);
+
+        $arr_activename = array();
+
+        while ($row = mysql_fetch_array($result)) {
+			//username, password, nickname, gender, phone, extre_info, imgsrc
+			$u_id = $row['u_id'];
+            $username = $row['username'];
+			$nickname = $row['nickname'];
+			$gender = $row['gender'];
+			$phone = $row['phone'];
+			$extre_info = $row['extre_info'];
+			$imgsrc = "http://".$_SERVER['HTTP_HOST']."/upload/" . $row['imgsrc'];
+            //$i++;
+        }
+
+        mysql_close($con);
+
+        $viewInfo = array(
+			'u_id' => $u_id,
+			'username' => $username,
+			'nickname' => $nickname,
+			'gender' => $gender,
+			'phone' => $phone,
+			'extra' => $extre_info,
+			'imgsrc' => $imgsrc);
+        return new ViewModel($viewInfo);
+    }
+//主办方详细信息
+public function edithostAction() {
+		session_start();
+        $con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+
+        $post_data = $_POST;
+		$get_data = $_GET;
+		$search_id = $_SESSION['h_id'];
+
+        $result = mysql_query("SELECT * FROM host where host_id = ".$get_data['id']);
+
+        $arr_activename = array();
+
+        while ($row = mysql_fetch_array($result)) {
+			//username, password, nickname, gender, phone, extre_info, imgsrc
+			$h_id = $row['host_id'];
+            $username = $row['username'];
+			$phone = $row['phone'];
+			$extre_info = $row['extre_info'];
+			$imgsrc = "http://".$_SERVER['HTTP_HOST']."/upload/" . $row['imgsrc'];
+            //$i++;
+        }
+
+        mysql_close($con);
+
+        $viewInfo = array(
+			'h_id' => $h_id,
+			'username' => $username,
+			'phone' => $phone,
+			'extra' => $extre_info,
+			'imgsrc' => $imgsrc);
+        return new ViewModel($viewInfo);
+    }
 //用户编辑页面数据获取
 	public function edituserAction() {
 		session_start();
@@ -134,7 +216,7 @@ class IndexController extends AbstractActionController {
         return new ViewModel($viewInfo);
     }
 
-	public function edithostAction() {
+	public function gethostAction() {
 		session_start();
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
@@ -557,6 +639,7 @@ class IndexController extends AbstractActionController {
         $result = mysql_query("SELECT distinct * FROM relation where active_id = " . $get_data['id']);
 
         $arr_username = array();
+		$arr_userid = array();
 
         $i = '0';
 
@@ -565,13 +648,16 @@ class IndexController extends AbstractActionController {
             $result_username = mysql_query("SELECT * FROM user_info where u_id = " . $userid);
             while ($row_user = mysql_fetch_array($result_username)) {
                 $arr_username[$i] = $row_user['username'];
+				$arr_userid[$i] = $userid;
                 $i++;
             }     
         }
 
         mysql_close($con);
 
-        $viewInfo = array('username' => $arr_username);
+        $viewInfo = array('username' => $arr_username,
+			'userid' => $arr_userid,
+			'flag' => $i);
         return new ViewModel($viewInfo);
     }
 
