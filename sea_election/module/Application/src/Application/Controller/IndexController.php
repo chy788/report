@@ -32,8 +32,7 @@ class IndexController extends AbstractActionController {
 		$extra = $_POST['extra'];
 		$img_arr = explode(".",$_FILES["file"]["name"]);
 		$img_src = md5($time.$img_arr['0']);
-		move_uploaded_file($_FILES["file"]["tmp_name"],
-			"d://xampp/htdocs/chyproject/sea_election/public/upload/" . $img_src.'.'.$img_arr['1']);
+		move_uploaded_file($_FILES["file"]["tmp_name"],$_SERVER['DOCUMENT_ROOT'].'/upload/'. $img_src.'.'.$img_arr['1']);
 		$img_add = $img_src.'.'.$img_arr['1'];
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {
@@ -67,7 +66,7 @@ class IndexController extends AbstractActionController {
 		$img_arr = explode(".",$_FILES["file"]["name"]);
 		$img_src = md5($time.$img_arr['0']);
 		move_uploaded_file($_FILES["file"]["tmp_name"],
-			"d://xampp/htdocs/chyproject/sea_election/public/upload/" . $img_src.'.'.$img_arr['1']);
+			$_SERVER['DOCUMENT_ROOT'].'/upload/'. $img_src.'.'.$img_arr['1']);
 		$img_add = $img_src.'.'.$img_arr['1'];
         $con = mysql_connect('localhost', 'root', '');
         if (!$con) {

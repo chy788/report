@@ -251,3 +251,67 @@ border-color: #66AFE9;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
     outline: 0 none;
 }
+.sidebar {
+    background: url("../img/sidebar-back.png") repeat scroll 0 0 #333333;
+    position: fixed;
+    width: 240px;
+    z-index: 4000;
+	left:0px;
+	top:0px;
+	height:100%;
+}
+.sidebar .photo{
+    background: url("../img/head-bg.png") repeat scroll 0 0 #70C8E0;
+    border-bottom: 1px solid #111111;
+    border-radius: 5px;
+	width:192px;
+	height:192px;
+    margin: 25px 25px;
+    padding: 10px;
+    text-shadow: 1px 1px 2px #666666;
+}
+
+.sidebar .list {
+    border-bottom: 1px solid #090909;
+    border-top: 1px solid #222222;
+    margin-top: 20px;
+	padding-left: 0;
+	font-weight:700;
+	font-family:'Open Sans',sans-serif;
+}
+.sidebar .list > li {
+    border-bottom: 1px solid #090909;
+    border-top: 1px solid #222222;
+    padding: 10px 0 10px 15px;
+}
+.sidebar .list > li:first-child {
+    border-top: 1px solid #090909;
+}
+.sidebar .list > li:last-child {
+    border-bottom: 1px solid #222222;
+}
+.sidebar .list > li:hover {
+    background: none repeat scroll 0 0 #111111;
+}
+.sidebar .list > li i {
+    border: 2px solid #111111;
+    border-radius: 60px;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 14px;
+    height: 35px;
+    line-height: 35px;
+    margin-right: 10px;
+    text-align: center;
+	width:35px;
+}
+.sidebar .list > li > a {
+    color: #FFFFFF;
+    font-size: 14px;
+    text-decoration: none !important;
+    text-shadow: 1px 1px 2px #000000;
+    text-transform: uppercase;
+}
+.sidebar .list > li > a > i.scolor {
+    background: none repeat scroll 0 0 #222222;
+}

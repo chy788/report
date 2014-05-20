@@ -6,8 +6,8 @@ enctype="multipart/form-data">
 
 <div class="upload-photo">
 <img src="/img/undifined-photo.jpg" id="img0" width="148" height="148" >
-<input type="button" class="upload-label" onclick="imgupload.click()" value="上传图片"/>
-<input class="upload-button" type="file" name="imgupload" id="imgupload" /> 
+<input type="button" class="upload-label" onclick="file.click()" value="上传图片"/>
+<input class="upload-button" type="file" name="file" id="file" /> 
 </div>
 
 <div class="info">
@@ -53,7 +53,7 @@ enctype="multipart/form-data">
      * 使用HTML5 File API, 來即時預覽image
 19
      */
-    $("#imgupload").change(function(){
+    $("#file").change(function(){
         var objUrl = getObjectURL(this.files[0]) ;
         if (objUrl) {
             $("#img0").attr("src", objUrl) ;

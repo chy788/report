@@ -1,11 +1,21 @@
+
+<div class="regist-container">
+<h3 class="regist-title">注册成功</h3>
+<div class="upload-photo">
+<img src='<?php echo $img_add?>' id="img0" width="148" height="148" >
+</div>
+<div class="info">
+<h4 class="info-title">基本信息</h4>
+<div class="form-group">
 用户id:<?php echo $u_id;?>
-</br>
-头像 <img src='<?php echo $img_add?>'>
-</br>
+</div>
+<div class="form-group">
 用户名:<?php echo $username?>
-</br>
+</div>
+<div class="form-group">
 昵称:<?php echo $nickname?>
-</br>
+</div>
+<div class="form-group">
 性别:<?php 
 if($gender==1)
 {
@@ -14,7 +24,12 @@ echo '男';
 {
 echo '女';
 }?>
-</br>
+</div>
+<div class="form-group">
 电话:<?php echo $phone?>
-</br>
+</div>
+<div class="form-group">
 备注:<?php echo $extra?>
+</div>
+</div>
+</div>

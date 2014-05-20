@@ -4,8 +4,8 @@
 enctype="multipart/form-data">
 <div class="upload-photo">
 <img src="/img/undifined-photo.jpg" id="img0" width="148" height="148" >
-<input type="button" class="upload-label" onclick="imgupload.click()" value="上传图片"/>
-<input class="upload-button" type="file" name="imgupload" id="imgupload" /> 
+<input type="button" class="upload-label" onclick="file.click()" value="上传图片"/>
+<input class="upload-button" type="file" name="file" id="file" /> 
 </div>
 
 <div class="info">
@@ -34,3 +34,32 @@ enctype="multipart/form-data">
 
 
 <a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/login"></a>
+
+<script> 
+    /**
+18
+     * 使用HTML5 File API, 來即時預覽image
+19
+     */
+    $("#file").change(function(){
+        var objUrl = getObjectURL(this.files[0]) ;
+        if (objUrl) {
+            $("#img0").attr("src", objUrl) ;
+        }
+    }) ;
+    /**
+     * 建立一個可存取到該file的url
+     * PS: 瀏覽器必須支援HTML5 File API
+     */
+    function getObjectURL(file) {
+        var url = null ;
+        if (window.createObjectURL!=undefined) { // basic
+            url = window.createObjectURL(file) ;
+        } else if (window.URL!=undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file) ;
+        } else if (window.webkitURL!=undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file) ;
+        }
+        return url ;
+    }
+    </script>
