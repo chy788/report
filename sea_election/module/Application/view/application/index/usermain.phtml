@@ -1,25 +1,35 @@
 <div class="sidebar">
 <div class="photo">
-<img src='<?php echo $imgsrc?>' width='172px' height='172px'>
+<img src='<?php echo $imgsrc?>' width='152px' height='152px'>
 </div>
 <ul class="list">
 <li>
-<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/edituser"><i class="icon-glass scolor"></i>编辑个人信息</a>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/usermain"><i class="icon-home scolor"></i>主页</a>
 </li>
 <li>
-<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/allactive"><i class="icon-road scolor"></i>所有活动列表</a>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/edituser"><i class="icon-user scolor"></i>编辑个人信息</a>
 </li>
 <li>
-<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/searchactive"><i class="icon-road scolor"></i>已经报名的活动</a>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/allactive"><i class="icon-list scolor"></i>所有活动列表</a>
+</li>
+<li>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/searchactive"><i class="icon-heart scolor"></i>已经报名活动</a>
 </li>
 </ul>
 </div>
+
+<div class="info">
+<h4 class="info-title">基本信息</h4>
+<div class="form-group">
 用户id:<?php echo $_SESSION['u_id'];?>
-</br>
+</div>
+<div class="form-group">
 用户名:<?php echo $username?>
-</br>
+</div>
+<div class="form-group">
 昵称:<?php echo $nickname?>
-</br>
+</div>
+<div class="form-group">
 性别:<?php 
 if($gender==1)
 {
@@ -28,13 +38,12 @@ echo '男';
 {
 echo '女';
 }?>
-</br>
+</div>
+<div class="form-group">
 电话:<?php echo $phone?>
-</br>
+</div>
+<div class="form-group">
 备注:<?php echo $extra?>
-</br>
-
-</br>
-
-</br>
+</div>
+</div>
 

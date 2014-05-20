@@ -1,7 +1,25 @@
+<div class="sidebar">
+<div class="photo">
+<img src='<?php echo $imgsrc?>' width='152px' height='152px'>
+</div>
+<ul class="list">
+<li>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/hostmain"><i class="icon-home scolor"></i>主页</a>
+</li>
+<li>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/edithost"><i class="icon-user scolor"></i>编辑主办方信息</a>
+</li>
+<li>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/activelist"><i class="icon-list scolor"></i>所有活动列表</a>
+</li>
+<li>
+<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/application/Index/signactive"><i class="icon-fire scolor"></i>创建活动</a>
+</li>
+</ul>
+</div>
 
 用户id:<?php echo $_SESSION['h_id'];?>
 </br>
-头像 <img src='<?php echo $imgsrc?>'>
 </br>
 用户名:<?php echo $username?>
 </br>
