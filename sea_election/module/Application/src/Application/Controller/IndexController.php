@@ -15,6 +15,19 @@ use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController {
 
+	function __construct()   
+	{
+		session_start();
+
+		$con = mysql_connect('localhost', 'root', '');
+        if (!$con) {
+            var_dump(mysql_error());
+        }
+
+		mysql_query("SET NAMES utf8"); 
+        mysql_select_db("sea_election", $con);
+	}
+
     public function indexAction() {
         return new ViewModel();
     }
@@ -34,18 +47,11 @@ class IndexController extends AbstractActionController {
 		$img_src = md5($time.$img_arr['0']);
 		move_uploaded_file($_FILES["file"]["tmp_name"],$_SERVER['DOCUMENT_ROOT'].'/upload/'. $img_src.'.'.$img_arr['1']);
 		$img_add = $img_src.'.'.$img_arr['1'];
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
+        
 
         mysql_query("INSERT INTO user_info (u_id, username, password, nickname, gender, phone, extre_info, imgsrc) VALUES ('', '".$username."', '111111','".$nickname."', '".$gender."', '".$phone."', '".$extra."', '".$img_add."')");
 		$u_id = mysql_insert_id();
 
-        mysql_close($con);
 		//var_dump($arr_extra);
         $viewInfo = array(
 			'u_id' => $u_id,
@@ -68,18 +74,10 @@ class IndexController extends AbstractActionController {
 		move_uploaded_file($_FILES["file"]["tmp_name"],
 			$_SERVER['DOCUMENT_ROOT'].'/upload/'. $img_src.'.'.$img_arr['1']);
 		$img_add = $img_src.'.'.$img_arr['1'];
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         mysql_query("INSERT INTO host (host_id, username, password, phone, extre_info, imgsrc) VALUES ('', '".$username."', '111111', '".$phone."', '".$extra."', '".$img_add."')");
 		$u_id = mysql_insert_id();
 
-        mysql_close($con);
 		//var_dump($arr_extra);
         $viewInfo = array(
 			'u_id' => $u_id,
@@ -91,14 +89,6 @@ class IndexController extends AbstractActionController {
     }
 //用户详细信息
 public function getuserAction() {
-		session_start();
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 		$get_data = $_GET;
@@ -120,7 +110,6 @@ public function getuserAction() {
             //$i++;
         }
 
-        mysql_close($con);
 
         $viewInfo = array(
 			'u_id' => $u_id,
@@ -132,22 +121,14 @@ public function getuserAction() {
 			'imgsrc' => $imgsrc);
         return new ViewModel($viewInfo);
     }
-//主办方详细信息
+//主办方编辑页面数据获取
 public function edithostAction() {
-		session_start();
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 		$get_data = $_GET;
 		$search_id = $_SESSION['h_id'];
 
-        $result = mysql_query("SELECT * FROM host where host_id = ".$get_data['id']);
+        $result = mysql_query("SELECT * FROM host where host_id = ".$search_id);
 
         $arr_activename = array();
 
@@ -161,7 +142,6 @@ public function edithostAction() {
             //$i++;
         }
 
-        mysql_close($con);
 
         $viewInfo = array(
 			'h_id' => $h_id,
@@ -173,14 +153,6 @@ public function edithostAction() {
     }
 //用户编辑页面数据获取
 	public function edituserAction() {
-		session_start();
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 		$search_id = $_SESSION['u_id'];
@@ -203,7 +175,6 @@ public function edithostAction() {
             //$i++;
         }
 
-        mysql_close($con);
 
         $viewInfo = array(
 			'u_id' => $u_id,
@@ -215,16 +186,8 @@ public function edithostAction() {
 			'imgsrc' => $imgsrc);
         return new ViewModel($viewInfo);
     }
-
+//主办方详细信息
 	public function gethostAction() {
-		session_start();
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 		$search_id = $_SESSION['h_id'];
@@ -245,7 +208,6 @@ public function edithostAction() {
             //$i++;
         }
 
-        mysql_close($con);
 
         $viewInfo = array(
 			'h_id' => $h_id,
@@ -257,21 +219,13 @@ public function edithostAction() {
     }
 //创建主办方方法
     public function createhostAction() {
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
-
+       
         $post_data = $_POST;
 
         mysql_query("INSERT INTO host (host_id, host_name, host_extra) VALUES ('', '" . $post_data["username"] . "', '" . $post_data["extrainfo"] . "')");
 
         $host_id = mysql_insert_id();
 
-        mysql_close($con);
 
         $viewInfo = array('username' => $post_data["username"],
             'extrainfo' => $post_data["extrainfo"],
@@ -284,20 +238,11 @@ public function edithostAction() {
 	 }
 //创建活动方法
     public function createactiveAction() {
-		session_start();
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 
         mysql_query("INSERT INTO active (active_id, host_id, active_name, active_extra) VALUES ('', '" . $_SESSION['h_id'] . "', '" . $post_data["activename"] . "', '" . $post_data["extrainfo"] . "')");
 
-        mysql_close($con);
 
         $viewInfo = array('username' => $post_data["activename"],
             'extrainfo' => $post_data["extrainfo"],
@@ -306,14 +251,6 @@ public function edithostAction() {
     }
 //主办发查看信息列表
 	public function activelistAction() {
-		session_start();
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 
@@ -330,8 +267,6 @@ public function edithostAction() {
             $i++;
         }
 
-        mysql_close($con);
-
         $viewInfo = array('activename' => $arr_activename,
 			'arr_activeid' => $arr_activeid,
 			'flag' => $i);
@@ -339,15 +274,7 @@ public function edithostAction() {
     }
 //查看活动信息
 	public function activeshowAction() {
-		session_start();
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
-
+		
         $get_data = $_GET;
 
         $result = mysql_query("SELECT * FROM active where active_id = " . $get_data['id'] . " and host_id = " . $_SESSION['h_id']);
@@ -360,8 +287,6 @@ public function edithostAction() {
         $activename = $row['active_name'];
 		$activeextra = $row['active_extra'];
 		$hostid = $row['host_id'];
-
-        mysql_close($con);
 
         $viewInfo = array('activename' => $activename,
 			'activeid' => $activeid,
@@ -371,14 +296,6 @@ public function edithostAction() {
     }
 //编辑活动信息
 	public function editactiveAction() {
-		session_start();
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         $get_data = $_GET;
 
@@ -393,8 +310,6 @@ public function edithostAction() {
 		$activeextra = $row['active_extra'];
 		$hostid = $row['host_id'];
 
-        mysql_close($con);
-
         $viewInfo = array('activename' => $activename,
 			'activeid' => $activeid,
 			'activeextra' => $activeextra,
@@ -403,37 +318,20 @@ public function edithostAction() {
     }
 //编辑活动方法
 	public function activedoeditAction() {
-		session_start();
 		//var_dump($_POST);exit;
 		$activeid = $_POST['activeid'];
 		$activename = $_POST['activename'];
 		$extrainfo = $_POST['extrainfo'];
 		$hostid = $_POST['hostid'];
 		$updatesql = "UPDATE active  set active_name = '".$activename."', active_extra = '".$extrainfo."' where active_id = '".$activeid."'";
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         mysql_query($updatesql);
 		$u_id = mysql_insert_id();
-
-        mysql_close($con);
 		header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/activeshow?id='.$activeid);
 		exit;
 	}
 //展示主办方信息
     public function showhostinfoAction() {
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 
@@ -448,20 +346,11 @@ public function edithostAction() {
             $i++;
         }
 
-        mysql_close($con);
-
         $viewInfo = array('activename' => $arr_activename);
         return new ViewModel($viewInfo);
     }
 //创建用户方法
     public function createuserAction() {
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 
@@ -471,8 +360,6 @@ public function edithostAction() {
 
         $user_id = mysql_insert_id();
 
-        mysql_close($con);
-
         $viewInfo = array('username' => $post_data["username"],
             'extrainfo' => $post_data["extrainfo"],
             'userid' => $user_id);
@@ -481,14 +368,6 @@ public function edithostAction() {
     }
 //用户报名参加活动页面
     public function allactiveAction() {
-
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 
@@ -506,8 +385,6 @@ public function edithostAction() {
             $i++;
         }
 
-        mysql_close($con);
-
         $viewInfo = array('activename' => $arr_activename,
             'activeid' => $arr_activeid,
 			'hostid' => $arr_hostid,
@@ -518,14 +395,6 @@ public function edithostAction() {
 //用户查看活动详情页面
 	public function useractiveshowAction()
 	{
-		session_start();
-		$con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         $get_data = $_GET;
 
@@ -549,8 +418,6 @@ public function edithostAction() {
 			$ifsign = '1';
 		}
 
-        mysql_close($con);
-
         $viewInfo = array('activename' => $activename,
 			'activeid' => $activeid,
 			'activeextra' => $activeextra,
@@ -561,14 +428,6 @@ public function edithostAction() {
 
 //用户报名参加活动方法
     public function signprocessAction() {
-		session_start();
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 		//$get_data = $_GET;
@@ -576,8 +435,6 @@ public function edithostAction() {
         mysql_query("INSERT INTO relation (user_id, active_id, update_time) VALUES ('" . $_SESSION['u_id'] . "', '" . $post_data["active_id"] . "', '" . time() . "')");
 
         $user_id = mysql_insert_id();
-
-        mysql_close($con);
 
 		header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/allactive');
 		exit;
@@ -588,14 +445,6 @@ public function edithostAction() {
     }
 //用户查看已参加的活动
     public function searchactiveAction() {
-		session_start();
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 
@@ -616,8 +465,6 @@ public function edithostAction() {
             }     
         }
 
-        mysql_close($con);
-
         $viewInfo = array('activename' => $arr_activename,
 			'activeid' => $arr_id,
 			'flag' => $i);
@@ -625,13 +472,6 @@ public function edithostAction() {
     }
     //主办方查看活动的报名信息
     public function searchuserAction() {
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 		$get_data = $_GET;
@@ -652,8 +492,6 @@ public function edithostAction() {
                 $i++;
             }     
         }
-
-        mysql_close($con);
 
         $viewInfo = array('username' => $arr_username,
 			'userid' => $arr_userid,
@@ -706,14 +544,6 @@ public function edithostAction() {
 //登陆页面
 	public function loginAction()
 	{
-		session_start();
-		$con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         $post_data = $_POST;
 		$type = $_POST['type'];
@@ -753,14 +583,12 @@ public function edithostAction() {
 //用户主页
 	public function usermainAction()
 	{
-		session_start();
-		$con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
+		var_dump($flag = $_SESSION['u_id']);
+		if(!$flag)
+		{
+			header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/index');
+			exit;
+		}
 
         $post_data = $_POST;
 
@@ -779,7 +607,6 @@ public function edithostAction() {
             //$i++;
 		
 		$_SESSION['u_id']=$u_id;
-        mysql_close($con);
         $viewInfo = array(
 			'username' => $username,
 			'nickname' => $nickname,
@@ -792,14 +619,12 @@ public function edithostAction() {
 //主办方主页 
 	public function hostmainAction()
 	{
-		session_start();
-		$con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
+		var_dump($flag = $_SESSION['h_id']);
+		if(!$flag)
+		{
+			header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/index');
+			exit;
+		}
 
         $post_data = $_POST;
 
@@ -816,7 +641,6 @@ public function edithostAction() {
             //$i++;
 		
 		$_SESSION['h_id']=$host_id;
-        mysql_close($con);
         $viewInfo = array(
 			'result' => '0',
 			'username' => $username,
@@ -827,7 +651,6 @@ public function edithostAction() {
 	}
 //用户编辑方法
 	public function doeditAction() {
-		session_start();
 		$time = time();
 		$username = $_POST['username'];
 		$nickname = $_POST['nickname'];
@@ -849,24 +672,15 @@ public function edithostAction() {
 			$updatesql = "UPDATE user_info  set username = '".$username."', nickname = '".$nickname."', gender = '".$gender."', phone = '".$phone."', extre_info = '".$extra."' where u_id = '".$_SESSION['u_id']."'";
 
 		}
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         mysql_query($updatesql);
 		$u_id = mysql_insert_id();
 
-        mysql_close($con);
 		header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/usermain');
 		exit;
 	}
 //主办方编辑方法
 	public function hostdoeditAction() {
-		session_start();
 		//var_dump($_POST);exit;
 		$time = time();
 		$username = $_POST['username'];
@@ -887,19 +701,20 @@ public function edithostAction() {
 			$updatesql = "UPDATE host  set username = '".$username."', phone = '".$phone."', extre_info = '".$extra."' where host_id = '".$_SESSION['h_id']."'";
 
 		}
-        $con = mysql_connect('localhost', 'root', '');
-        if (!$con) {
-            var_dump(mysql_error());
-        }
-
-		mysql_query("SET NAMES utf8"); 
-        mysql_select_db("sea_election", $con);
 
         mysql_query($updatesql);
 		$u_id = mysql_insert_id();
 
-        mysql_close($con);
 		header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/hostmain');
+		exit;
+	}
+
+	public function logoutAction()
+	{
+		unset($_SESSION['u_id']); 
+		unset($_SESSION['h_id']); 
+
+		header('Location: http://'.$_SERVER['HTTP_HOST'].'/application/Index/index');
 		exit;
 	}
 }
