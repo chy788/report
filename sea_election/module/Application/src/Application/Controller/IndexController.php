@@ -39,6 +39,7 @@ class IndexController extends AbstractActionController {
     public function getpostAction() {
 		$time = time();
 		$username = $_POST['username'];
+		$password = $_POST['password'];
 		$nickname = $_POST['nickname'];
 		$gender = $_POST['gender'];
 		$phone = $_POST['phone'];
@@ -49,7 +50,7 @@ class IndexController extends AbstractActionController {
 		$img_add = $img_src.'.'.$img_arr['1'];
         
 
-        mysql_query("INSERT INTO user_info (u_id, username, password, nickname, gender, phone, extre_info, imgsrc) VALUES ('', '".$username."', '111111','".$nickname."', '".$gender."', '".$phone."', '".$extra."', '".$img_add."')");
+        mysql_query("INSERT INTO user_info (u_id, username, password, nickname, gender, phone, extre_info, imgsrc) VALUES ('', '".$username."', '".md5($password)."','".$nickname."', '".$gender."', '".$phone."', '".$extra."', '".$img_add."')");
 		$u_id = mysql_insert_id();
 
 		//var_dump($arr_extra);
@@ -67,6 +68,7 @@ class IndexController extends AbstractActionController {
 	public function getposthAction() {
 		$time = time();
 		$username = $_POST['username'];
+		$password = $_POST['password'];
 		$phone = $_POST['phone'];
 		$extra = $_POST['extra'];
 		$img_arr = explode(".",$_FILES["file"]["name"]);
@@ -75,7 +77,7 @@ class IndexController extends AbstractActionController {
 			$_SERVER['DOCUMENT_ROOT'].'/upload/'. $img_src.'.'.$img_arr['1']);
 		$img_add = $img_src.'.'.$img_arr['1'];
 
-        mysql_query("INSERT INTO host (host_id, username, password, phone, extre_info, imgsrc) VALUES ('', '".$username."', '111111', '".$phone."', '".$extra."', '".$img_add."')");
+        mysql_query("INSERT INTO host (host_id, username, password, phone, extre_info, imgsrc) VALUES ('', '".$username."', '".md5($password)."', '".$phone."', '".$extra."', '".$img_add."')");
 		$u_id = mysql_insert_id();
 
 		//var_dump($arr_extra);
@@ -550,7 +552,7 @@ public function edithostAction() {
 		if($type == '1')
 		{
 
-			$result = mysql_query("SELECT * FROM user_info where username='".$post_data['username']."' and password='".$post_data['password']."'");
+			$result = mysql_query("SELECT * FROM user_info where username='".$post_data['username']."' and password='".md5($post_data['password'])."'");
 			//var_dump("SELECT * FROM user_info where username='".$post_data['username']."' and password='".$post_data['password']."'");
 			$arr_activename = array();
 			$row = mysql_fetch_array($result);
@@ -565,7 +567,7 @@ public function edithostAction() {
 			}
 		}else if($type == '2')
 			{
-				$result = mysql_query("SELECT * FROM host where username='".$post_data['username']."' and password='".$post_data['password']."'");
+				$result = mysql_query("SELECT * FROM host where username='".$post_data['username']."' and password='".md5($post_data['password'])."'");
 
 				$arr_activename = array();
 				$row = mysql_fetch_array($result);
