@@ -757,5 +757,42 @@ public function edithostAction() {
 		} 
 		exit;
 	}
+
+	public function getuserinfoAction()
+	{
+		header("Content-Type: application/download");
+		header("Content-type:application/vnd.ms-excel");
+		header("Content-Disposition:filename=111.xls");
+		$sql = "select * from relation where active_id = 1"; 
+		$query = mysql_query($sql);
+		echo "id\tusername\tnickname\tgender\tphone\textre_info";
+		while($row = mysql_fetch_array($query)){  
+			//var_dump($row['user_id']);
+			$getlist = "select * from user_info where u_id = ".$row['user_id'];
+			$query_getlist = mysql_query($getlist);
+			while($row = mysql_fetch_array($query_getlist)){
+				echo "\n";  
+				$u_id = mb_convert_encoding($row['u_id'], "gb2312", "utf-8" );
+				$username = mb_convert_encoding($row['u_id'], "gb2312", "utf-8" );
+				$nickname = mb_convert_encoding($row['nickname'], "gb2312", "utf-8" );
+				//$gender = mb_convert_encoding($row['gender'], "gb2312", "utf-8" );
+				if($row['gender']=='1')
+					{
+						$gender = '男';
+						$gender = mb_convert_encoding($gender, "gb2312", "utf-8" );
+
+					}else
+					{
+						$gender = '女';
+						$gender = mb_convert_encoding($gender, "gb2312", "utf-8" );
+					}
+				$phone = mb_convert_encoding($row['phone'], "gb2312", "utf-8" );
+				$extre_info = mb_convert_encoding($row['extre_info'], "gb2312", "utf-8" );
+				echo $u_id."\t".$username."\t".$nickname."\t".$gender."\t".$phone."\t".$extre_info;  
+			}
+		}
+		exit;
+	}
 }
+
 
