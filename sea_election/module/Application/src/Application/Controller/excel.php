@@ -12,10 +12,12 @@
       
     $sql = "select * from host";  
     $query = mysql_query($sql);  
+
+	//u_id	username	password	nickname	gender	phone	extre_info
       
-    echo "id\tusername";  
+    echo "id\tusername\nickname\gender\phone\extre_info";
     while($row = mysql_fetch_array($query)){  
         echo "\n";  
-        echo $row['host_id']."\t".$row['username'];  
+        echo $row['host_id']."\t".$row['username']."\t".$row['nickname']."\t".$row['gender']."\t".$row['phone']."\t".$row['extre_info'];  
     }  
 
