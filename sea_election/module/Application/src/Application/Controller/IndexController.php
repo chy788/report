@@ -13,6 +13,8 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
+require 'moudle.php';
+
 class IndexController extends AbstractActionController {
 
 	function __construct()   
@@ -387,10 +389,14 @@ public function edithostAction() {
             $i++;
         }
 
+		//$index_class = new IndexController();
+		$imgsrc = getimg();
+
         $viewInfo = array('activename' => $arr_activename,
             'activeid' => $arr_activeid,
 			'hostid' => $arr_hostid,
-            'flag' => $i);
+            'flag' => $i,
+			'imgsrc' => $imgsrc);
         return new ViewModel($viewInfo);
     }
 
@@ -467,9 +473,12 @@ public function edithostAction() {
             }     
         }
 
+		$imgsrc = getimg();
+
         $viewInfo = array('activename' => $arr_activename,
 			'activeid' => $arr_id,
-			'flag' => $i);
+			'flag' => $i,
+			'imgsrc' => $imgsrc);
         return new ViewModel($viewInfo);
     }
     //主办方查看活动的报名信息
@@ -792,6 +801,16 @@ public function edithostAction() {
 			}
 		}
 		exit;
+	}
+
+	public function getimg()
+	{
+		$resultm = mysql_query("SELECT * FROM user_info where u_id='".$_SESSION['u_id']."'");
+			
+        //$arr_activename = array();
+		$rowm = mysql_fetch_array($resultm);
+			$imgsrc = "http://".$_SERVER['HTTP_HOST']."/upload/" . $rowm['imgsrc'];
+			return $imgsrc;
 	}
 }
 
